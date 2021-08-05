@@ -88,9 +88,6 @@ const App: React.FC = (store) => {
   };
   const checkName = async () => {
     const value = await Storage.get({ key: 'auth' });
-
-
-    //console.log(`Hello ${value.value}!`);
     setError("" + value.value)
     if (value.value === null) {
       return false;
@@ -98,47 +95,31 @@ const App: React.FC = (store) => {
     else {
       return true;
     }
-
   };
   const [auth, setauth] = useState(false);
   const removeName = async () => {
-
     const value = await Storage.remove({ key: 'auth' });
-
     if (value === undefined) {
-      // code...
-
-      //console.log(false)
       return false;
     } else {
       console.log(true)
       return true;
     }
-
-
   };
-  //const router = useHistory()
   const datos = (() => {
     setError("session cerrada")
     setauth(false)
     removeName().then(function (resultado) {
-      // console.log(resultado)
-      // history.push('/');
-
       return resultado
-      // setauth(resultado)
     }).catch(function (falloCallback) {
       return console.log(falloCallback)
       console.log(falloCallback)
-      //  setauth(true)
-
     })
     return
   })
 
   useEffect(() => {
     const tabs = document.querySelectorAll('.tab');
-
     tabs.forEach(clickedTab => {
       clickedTab.addEventListener('click', () => {
         tabs.forEach(tab => {
@@ -148,17 +129,15 @@ const App: React.FC = (store) => {
       });
     });
     checkName().then(function (resultado) {
-      //  console.log(resultado);
       return setauth(resultado)
     }).catch(function (falloCallback) {
       return console.log(falloCallback)
       setToast1(true)
       setError(falloCallback)
-      //console.log(falloCallback);
+
     })
 
   }, [])
-  //const auth = localStorage.getItem("curretauth");
   const [showLoading, setShowLoading] = useState(false);
 
   const ShowToast1 = () => {
@@ -166,12 +145,10 @@ const App: React.FC = (store) => {
     else { setToast1(true) }
 
   }
-
   const values = (e: any) => {
     setForm1({ ...form1, [e.target.name]: e.target.value })
   }
   const handleChanges = async (event: any) => {
-    // localStorage.removeItem("curretauth")
     event.preventDefault();
     if (event.target.checkValidity()) {
       setShowLoading(true)
@@ -190,14 +167,11 @@ const App: React.FC = (store) => {
         if (result.status === 200) {
           const d: any = await result.json()
           setName(d.auth, d.token);
-          //console.log(error)
-          //correo@gmail.com
           dispatch(setUSerState(d.username))
           setShowLoading(false)
           setauth(true)
           setToast1(true)
           checkName()
-          // history.push("/tab2");
           return
         }
         setShowLoading(false)
