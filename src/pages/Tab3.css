@@ -1,0 +1,36 @@
+.my-fixed-item{
+
+}
+.imagen{
+	height:   100px;
+	width: 100%;
+}
+.fixline {
+   min-height: 20px;
+   padding: 5px;
+        
+        border-radius: 20px;
+}
+
+ 
+    @media (min-width: 0px) {
+        .fixline {
+            column-count: 2;
+        }
+    }
+ 
+    @media (min-width: 420px) {
+        .fixline {
+            column-count: 3;
+        }
+    }
+ 
+    @media (min-width: 720px) {
+        .fixline {
+            column-count: 4;
+        }
+    }
+     
+    .IonCard{
+    	border-radius: 20px;
+    }

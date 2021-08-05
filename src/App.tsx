@@ -1,18 +1,32 @@
-import { Redirect, Route } from 'react-router-dom';
+import React, { useState, useRef, useEffect, } from 'react';
+import { Storage } from '@capacitor/storage';
+import { Redirect, Route, useHistory, withRouter } from 'react-router';
 import {
   IonApp,
+  IonPage,
   IonIcon,
   IonLabel,
   IonRouterOutlet,
   IonTabBar,
+  useIonRouter,
+  createAnimation,
+  IonSplitPane,
   IonTabButton,
   IonTabs,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
+import { createBrowserHistory } from 'history';
+
+import { ellipse, square, triangle, folder } from 'ionicons/icons';
+import Taba from './components/Tablas'
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
+import Loging from './inicio/Login';
+import Sub from './pages/subtab1';
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions/ngx';
+
+
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -29,45 +43,221 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
+import { setUSerState } from './redux/action';
+
+import { useDispatch, useSelector } from 'react-redux';
+
 
 /* Theme variables */
 import './theme/variables.css';
+import './theme/tabar.css';
+const App: React.FC = (store) => {
+  //const history = createBrowserHistory();
+  const dispatch = useDispatch()
+  //  A simple, hard-coded navigation
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
-          </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
-          </Route>
-          <Route path="/tab3">
-            <Tab3 />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/tab1" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon icon={triangle} />
-            <IonLabel>Tab 1</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon icon={ellipse} />
-            <IonLabel>Tab 2</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon icon={square} />
-            <IonLabel>Tab 3</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+  let history = useHistory();
+  const [error, setError] = useState("")
+  const [Toast1, setToast1] = useState<boolean>(false)
+  const [form1, setForm1] = useState({
+    email: '',
+    password: ''
+  })
+  const animationBuilder = (baseEl: any, opts?: any) => {
+    const enteringAnimation = createAnimation()
+      .addElement(opts.enteringEl)
+      .fromTo('opacity', 0, 1)
+      .duration(250);
+
+    const leavingAnimation = createAnimation()
+      .addElement(opts.leavingEl)
+      .fromTo('opacity', 1, 0)
+      .duration(250);
+
+    const animation = createAnimation()
+      .addAnimation(enteringAnimation)
+      .addAnimation(leavingAnimation);
+
+    return animation;
+  };
+  const setName = async (auth: boolean, token: string) => {
+    await Storage.set({
+      key: 'auth',
+      value: token,
+    });
+  };
+  const checkName = async () => {
+    const value = await Storage.get({ key: 'auth' });
+
+
+    //console.log(`Hello ${value.value}!`);
+    setError("" + value.value)
+    if (value.value === null) {
+      return false;
+    }
+    else {
+      return true;
+    }
+
+  };
+  const [auth, setauth] = useState(false);
+  const removeName = async () => {
+
+    const value = await Storage.remove({ key: 'auth' });
+
+    if (value === undefined) {
+      // code...
+
+      //console.log(false)
+      return false;
+    } else {
+      console.log(true)
+      return true;
+    }
+
+
+  };
+  //const router = useHistory()
+  const datos = (() => {
+    setError("session cerrada")
+    setauth(false)
+    removeName().then(function (resultado) {
+      // console.log(resultado)
+      // history.push('/');
+
+      return resultado
+      // setauth(resultado)
+    }).catch(function (falloCallback) {
+      return console.log(falloCallback)
+      console.log(falloCallback)
+      //  setauth(true)
+
+    })
+    return
+  })
+
+  useEffect(() => {
+    const tabs = document.querySelectorAll('.tab');
+
+    tabs.forEach(clickedTab => {
+      clickedTab.addEventListener('click', () => {
+        tabs.forEach(tab => {
+          tab.classList.remove('active');
+        });
+        clickedTab.classList.add('active');
+      });
+    });
+    checkName().then(function (resultado) {
+      //  console.log(resultado);
+      return setauth(resultado)
+    }).catch(function (falloCallback) {
+      return console.log(falloCallback)
+      setToast1(true)
+      setError(falloCallback)
+      //console.log(falloCallback);
+    })
+
+  }, [])
+  //const auth = localStorage.getItem("curretauth");
+  const [showLoading, setShowLoading] = useState(false);
+
+  const ShowToast1 = () => {
+    if (Toast1) { setToast1(false) }
+    else { setToast1(true) }
+
+  }
+
+  const values = (e: any) => {
+    setForm1({ ...form1, [e.target.name]: e.target.value })
+  }
+  const handleChanges = async (event: any) => {
+    // localStorage.removeItem("curretauth")
+    event.preventDefault();
+    if (event.target.checkValidity()) {
+      setShowLoading(true)
+      let config = {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(form1)
+      }
+      try {
+        const datos = await fetch('http://192.168.1.8:1313/depar/LoginUser/', config)
+        const result = await datos
+        // console.log(result.status)
+        if (result.status === 200) {
+          const d: any = await result.json()
+          setName(d.auth, d.token);
+          //console.log(error)
+          //correo@gmail.com
+          dispatch(setUSerState(d.username))
+          setShowLoading(false)
+          setauth(true)
+          setToast1(true)
+          checkName()
+          // history.push("/tab2");
+          return
+        }
+        setShowLoading(false)
+      } catch (error) {
+        console.log(error)
+        setError(error)
+        setShowLoading(false)
+        setToast1(true)
+      }
+
+    } else {
+
+    }
+
+  }
+
+  if (auth) {
+
+    return (
+      <IonApp>
+        <IonReactRouter  >
+          <IonRouterOutlet id="main">
+
+            <Route exact path="/subtab1" render={() => <Sub datos={() => datos} />} />
+            <Route path="/home"  >
+              <Taba />
+            </Route>
+
+            <Route exact path="/">
+
+              <Redirect to="/home/" />
+            </Route>
+
+          </IonRouterOutlet>
+
+        </IonReactRouter>
+      </IonApp>
+    );
+  } else {
+    return (
+      <IonApp>
+        <IonReactRouter >
+          <IonRouterOutlet animation={animationBuilder}>
+            <Route exact path="/home">
+              <Loging handleChanges={() => handleChanges}
+                values={() => values}
+                showLoading={showLoading}
+                Toast1={Toast1}
+                ShowToast1={() => ShowToast1}
+                error={error} />
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
+          </IonRouterOutlet>
+        </IonReactRouter>
+
+      </IonApp>);
+  }
+
+};
 
 export default App;

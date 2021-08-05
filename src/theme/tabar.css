@@ -1,0 +1,103 @@
+
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css');
+.IonTabBar {
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
+}
+ion-tab-button {
+ 
+  --color-selected: transparent;
+}
+
+ion-tab-button ::before {
+  background-color: transparent;
+}
+.tab-selected::before {
+  background-color: transparent;
+}
+.tab {
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  margin: 0 10px;
+  
+  transition: background 0.2s ease-in;
+}
+
+.tab i {
+  font-size: 1.2em;
+}
+
+.tab p {
+  font-weight: bold;
+  overflow: hidden;
+  max-width: 0;
+  transform: translateX(0);
+  transition: transform 0.2s ease-in;
+}
+.tab-selected p {
+  margin-left: 10px;
+  max-width: 200px;
+  transform: translateX(0);
+  transition: transform 0.2s ease-in;
+}
+.tab.active p {
+  margin-left: 10px;
+  max-width: 200px;
+  transform: translateX(5%);
+  transition: transform 0.1s ease-in;
+}
+ion-tab-button[aria-selected='true'] div.tab.purple {
+  background-color: rgba(91, 55, 183, 0.2);
+  color: rgba(91, 55, 183, 1);
+}
+
+ion-tab-button[aria-selected='true'] div.tab.teal {
+  background-color: rgba(28, 150, 162, 0.2);
+  color: rgba(28, 150, 162, 1);
+}
+
+ion-tab-button[aria-selected='true'] div.tab.yellow {
+  background-color: rgba(230, 169, 25, 0.2);
+  color: rgba(230, 169, 25, 1);
+}
+
+ion-tab-button[aria-selected='true'] div.tab.pink {
+  background-color: rgba(201, 55, 157, 0.2);
+  color: rgba(201, 55, 157, 1);
+}
+
+.active div.purple {
+  background-color: rgba(91, 55, 183, 0.2);
+  color: rgba(91, 55, 183, 1);
+}
+.active div.pink {
+  background-color: rgba(201, 55, 157, 0.2);
+  color: rgba(201, 55, 157, 1);
+}
+.active div.yellow {
+  background-color: rgba(230, 169, 25, 0.2);
+  color: rgba(230, 169, 25, 1);
+}
+.active div.teal {
+  background-color: rgba(28, 150, 162, 0.2);
+  color: rgba(28, 150, 162, 1);
+}
+@media (max-width: 450px) {
+  .tab-nav-container {
+    padding: 20px;
+    width: 350px;
+  }
+
+  .tab {
+    padding: 0 10px;
+    margin: 0;
+  }
+
+  .tab i {
+    font-size: 1.5em;
+  }
+}
