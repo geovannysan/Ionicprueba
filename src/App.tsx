@@ -188,7 +188,7 @@ const App: React.FC = (store) => {
 
   }
 
-  if (auth) {
+  if (!auth) {
 
     return (
       <IonApp>

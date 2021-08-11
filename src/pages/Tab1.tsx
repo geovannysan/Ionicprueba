@@ -44,9 +44,11 @@ const Tab1: React.FC = (props) => {
 
       <div className="raiz">
         <div className="ion-padding">
-        <p className="lista" color="white">Helo {user}</p></div>
+        <p className="lista" color="white">Helo {user}</p>
         
-        
+         <p className="lista" color="white">Helo {user}</p>
+         </div>
+
       </div>
       <div className="list1">
         <h4 className="lista">Notificaciones</h4>

@@ -15,20 +15,12 @@ import React from "react";
 
 const Sub1: React.FC  <{datos:()=>(e:any) => void}> =props => {
   const router = useHistory();
-
-   
-  
- 
-
-    
-
-    
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-      <IonBackButton defaultHref={"/"} />
+      <IonBackButton mode="ios" defaultHref={"/"} />
     </IonButtons>
     <IonTitle>Back Button</IonTitle>
         </IonToolbar>
