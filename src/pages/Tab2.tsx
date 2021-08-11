@@ -1,10 +1,29 @@
 import React, { useState, useRef, useEffect, } from 'react';
-import { IonContent, IonIcon, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonInput, IonToggle, IonRadio, IonCheckbox, IonItemSliding, IonItemOption, IonItemOptions } from '@ionic/react';
+import {
+  IonContent,
+  IonCard,
+  IonCardContent,
+  IonRow,
+  IonCol,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonBadge,
+  IonImg,
+  IonIcon,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonList
+} from '@ionic/react';
 import { ellipse, square, triangle, folder } from 'ionicons/icons';
 import ExploreContainer from '../components/ExploreContainer';
 import { SharedElement } from 'react-navigation-shared-element';
+import Car from '../assets/types/Electric.png';
+import Car1 from '../assets/images/001.png';
+import Car2 from '../assets/pokeball.png'
 
-import './Tab2.css';
+import './Tab2.scss';
 const Tab2: React.FC = () => {
   const [cont, setCont] = useState([])
   const [pok, setPokemon] = useState([{}])
@@ -63,28 +82,44 @@ const Tab2: React.FC = () => {
           <IonTitle>Tab </IonTitle>
         </IonToolbar>
       </IonHeader>
+
+      <IonHeader collapse="condense">
+        <IonToolbar>
+          <IonTitle size="large">Tab 2</IonTitle>
+        </IonToolbar>
+      </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Tab 2</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-
-
+        <IonList>
           {pok.map((value: any, idx: number, []) => (
-
-            <div style={{
-              backgroundColor: `${value.color} `
-            }}>
-              <img src={value.img} />
-              {value.id}
+            <div key={idx} className=" no-padding-top" >
+              <IonCard style={{
+                backgroundColor: `${value.color}`
+              }}>
+                <div className="mask">
+                  <img src={Car2} />
+                </div>
+                <IonCardContent>
+                  <IonRow>
+                    <IonCol size="8">
+                      <IonCardSubtitle class="no">#{value.id}</IonCardSubtitle>
+                      <IonCardTitle>{value.nombre}</IonCardTitle>
+                      <IonCardSubtitle>
+                        <IonBadge >
+                          <img src={Car} alt="" />
+                          <span>Electico</span>
+                        </IonBadge>
+                      </IonCardSubtitle>
+                    </IonCol>
+                    <IonCol size="4">
+                      <IonImg src={value.img} />
+                    </IonCol>
+                  </IonRow>
+                </IonCardContent>
+              </IonCard>
             </div>
-
-
-
           ))}
-
+        </IonList>
+        <IonContent>
 
 
         </IonContent>

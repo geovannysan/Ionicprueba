@@ -1,0 +1,59 @@
+
+
+ion-content {
+  .no-padding-top {
+    flex: 1;
+  position: relative;
+    padding-top: 0px !important;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  ion-card {
+    overflow: visible;
+    height: 120px;
+    box-shadow: none;
+    border-radius: 8px;
+    margin: 26px 0;
+
+    ion-col {
+      ion-img {
+        position: relative;
+        bottom: 36px;
+        width: 120px;
+      }
+    }
+
+    .mask {
+      img {
+        width: 240px;
+        position: absolute;
+        bottom: 0px;
+        left: 140px;
+        mask-image: linear-gradient(to top, rgba(0,0,0,0.2), rgba(0,0,0,0));
+      }
+    }
+
+    ion-badge {
+      margin-top: 8px;
+      background: rgba(0,0,0,.08);
+      img {
+        width: 20px;
+        float: left;
+      }
+      span {
+        padding-left: 3px;
+        float: right;
+        line-height: 22px;
+      }
+    }
+
+    ion-card-title {
+      font-weight: 900px;
+    }
+
+    .no {
+      color: rgba(0,0,0,.66);
+      font-weight: bold;
+    }
+  }
+}
