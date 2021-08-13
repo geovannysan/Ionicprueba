@@ -10,7 +10,8 @@
 
 # production
 /build
-
+.gitignore
+assets
 # misc
 .DS_Store
 .env.local
@@ -19,6 +20,7 @@
 .env.production.local
 .vscode
 .idea
+
 
 npm-debug.log*
 yarn-debug.log*

@@ -3,9 +3,12 @@ import { IonContent,IonList, IonCard,IonIcon, IonItem, IonLabel, IonCardHeader
 import ExploreContainer from '../components/ExploreContainer';
 import { ellipse, square, triangle, folder } from 'ionicons/icons';
 import './Tab3.css';
+import {addFavor,setUSerState} from '../redux/action';
 
+import { useDispatch, useSelector } from 'react-redux';
 const Tab3: React.FC = () => {
- 
+ const user = useSelector((state:any)=> state.user);
+ //console.log(user)
   return (
     <IonPage>
       <IonHeader>
@@ -14,13 +17,10 @@ const Tab3: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent >
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Tab 3</IonTitle>
-          </IonToolbar>
-        </IonHeader>  
+        
   
-  <ExploreContainer name="Tab 1 page"/>
+   {user? user.map((va:any,i:number)=>(<div key={i}><IonItem button>{va.color} {va.nombre}</IonItem>
+                   </div>)):<div/>}
 
   
 

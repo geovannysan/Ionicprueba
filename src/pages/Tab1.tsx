@@ -23,7 +23,7 @@ const Tab1: React.FC = (props) => {
   const [username,setUsername]=useState('')
   const [Password,setPassword]=useState('')
   const router = useIonRouter();
-  const user = useSelector((state:any)=> state.user.username)
+  //const user = useSelector((state:any)=> state.user.username)
 
   
   //  A simple, hard-coded navigation
@@ -44,9 +44,9 @@ const Tab1: React.FC = (props) => {
 
       <div className="raiz">
         <div className="ion-padding">
-        <p className="lista" color="white">Helo {user}</p>
+        <p className="lista" color="white">Helo </p>
         
-         <p className="lista" color="white">Helo {user}</p>
+      
          </div>
 
       </div>

@@ -1,6 +1,5 @@
 const defaultstate ={
-	user:{},
-	fav:{}
+	user:[]
 }
 
 export default function reducer(
@@ -11,15 +10,10 @@ export default function reducer(
 	switch (type) {
 		case 'SET_USER_STATE':
 			return{
-				...state,
-				user:{username:payload}
+				user:[...state.user,payload]
 			}
-		case 'ADD_FAVORITE':
-		return{
-			...state,
-			fav:{payload}
-
-		}
+			case 'ADD_FAVORITE':
+		return state.user.filter( i => i !== payload.item.id);
 	}
 	return state
 
