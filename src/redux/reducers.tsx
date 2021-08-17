@@ -2,19 +2,23 @@ const defaultstate ={
 	user:[]
 }
 
-export default function reducer(
-	state = defaultstate,
-	{type,payload}:{type:string;payload:any}
+export default function userReducer(
+	state = defaultstate,action:any
 	):any {
+	switch (action.type) {
+		case 'DELETE_FAVORITE':{
+					 return {...state,
+					 	user:[...state.user.filter((item:any,index) => index !== action.payload)]}
+					}
+		case 'SET_USER_STATE':{
 
-	switch (type) {
-		case 'SET_USER_STATE':
-			return{
-				user:[...state.user,payload]
-			}
-			case 'ADD_FAVORITE':
-		return state.user.filter( i => i !== payload.item.id);
+					return{
+						...state,
+						user:[...state.user,action.payload]
+					}}
+			 default:{
+			 		return state}
+
 	}
-	return state
-
+	
 }

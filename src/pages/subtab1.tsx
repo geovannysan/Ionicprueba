@@ -20,7 +20,7 @@ const Sub1: React.FC  <{datos:()=>(e:any) => void}> =props => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-      <IonBackButton mode="ios" defaultHref={"/"} />
+      <IonBackButton  defaultHref={"/"} />
     </IonButtons>
     <IonTitle>Back Button</IonTitle>
         </IonToolbar>
