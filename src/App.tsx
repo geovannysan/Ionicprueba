@@ -66,13 +66,15 @@ const App: React.FC = (store) => {
   const animationBuilder = (baseEl: any, opts?: any) => {
     const enteringAnimation = createAnimation()
       .addElement(opts.enteringEl)
-      .fromTo('opacity', 0, 1)
+      .direction('reverse')
+      .fromTo('transform', 'translateX(0px)', 'translateX(100px)')
+      .fromTo('opacity', '1', '0.2')
       .duration(250);
 
     const leavingAnimation = createAnimation()
       .addElement(opts.leavingEl)
       .fromTo('opacity', 1, 0)
-      .duration(250);
+      .duration(350);
 
     const animation = createAnimation()
       .addAnimation(enteringAnimation)
@@ -177,7 +179,7 @@ const App: React.FC = (store) => {
         setShowLoading(false)
       } catch (error) {
         console.log(error)
-        setError(error)
+        setError(""+error)
         setShowLoading(false)
         setToast1(true)
       }
@@ -193,7 +195,7 @@ const App: React.FC = (store) => {
     return (
       <IonApp>
         <IonReactRouter  >
-          <IonRouterOutlet id="main">
+          <IonRouterOutlet id="main" animation={animationBuilder} >
 
             <Route exact path="/subtab1" render={() => <Sub datos={() => datos} />} />
             <Route path="/home"  >
@@ -215,7 +217,7 @@ const App: React.FC = (store) => {
       <IonApp>
         <IonReactRouter >
           <IonRouterOutlet animation={animationBuilder}>
-            <Route exact path="/home">
+            <Route exact path="/home"> 
               <Loging handleChanges={() => handleChanges}
                 values={() => values}
                 showLoading={showLoading}

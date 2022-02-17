@@ -22,6 +22,7 @@ import {
   useIonPopover,
   IonAvatar,
   IonLabel,
+  createAnimation,
   IonSearchbar,
   IonList
 } from '@ionic/react';
@@ -39,7 +40,23 @@ import Itemss from '../components/Items'
 
 import './Tab2.scss';
 
+const animationBuilder = (baseEl: any, opts?: any) => {
+    const enteringAnimation = createAnimation()
+      .addElement(opts.enteringEl)
+      .fromTo('opacity', 0, 1)
+      .duration(350);
 
+    const leavingAnimation = createAnimation()
+      .addElement(opts.leavingEl)
+      .fromTo('opacity', 1, 0)
+      .duration(350);
+
+    const animation = createAnimation()
+      .addAnimation(enteringAnimation)
+      .addAnimation(leavingAnimation);
+
+    return animation;
+  };
 
 const PopoverList: React.FC<{
   onHide: () => void,  user:any;
@@ -79,7 +96,7 @@ const Tab2: React.FC = () => {
 
   useEffect(() => {
     getData()
-      .then(data => {
+      .then((data:any) => {
         data.forEach(async (valor: any, indice: number) => {
           const ids = await (await fetch(valor.varieties["0"].pokemon["url"])).json()
           const dat = await ids.types
@@ -91,7 +108,7 @@ const Tab2: React.FC = () => {
       })
   }, [])
   async function searchNext($event: CustomEvent<void>) {
-    await getData1().then(res => {
+    await getData1().then((res:any) => {
       if (cont != null) {
         setDisableInfiniteScroll(res.length < 10);
         res.forEach(async (valor: any, indice: number) => {
@@ -164,8 +181,8 @@ const Tab2: React.FC = () => {
     return nombre.nombre.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
   };
   return (
-    <IonPage>
-      <IonHeader className="ion-no-border">
+    <IonPage >
+      <IonHeader className="ion-no-border" >
         <IonToolbar >
 
           <IonButtons slot="primary" onClick={(e) =>

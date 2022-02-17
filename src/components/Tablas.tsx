@@ -16,11 +16,27 @@ import {
   IonTabs,
 } from '@ionic/react';
 import { ellipse, square, triangle, folder } from 'ionicons/icons';
+const animationBuilder = (baseEl: any, opts?: any) => {
+    const enteringAnimation = createAnimation()
+      .addElement(opts.enteringEl)
+      .fromTo('opacity', 0, 1)
+      .duration(350);
 
+    const leavingAnimation = createAnimation()
+      .addElement(opts.leavingEl)
+      .fromTo('opacity', 1, 0)
+      .duration(350);
+
+    const animation = createAnimation()
+      .addAnimation(enteringAnimation)
+      .addAnimation(leavingAnimation);
+
+    return animation;
+  };
 const Tabs: React.FC = () => {
   return (
-     <IonTabs>
-            <IonRouterOutlet  >
+     <IonTabs >
+            <IonRouterOutlet >
            
               <Route exact path="/home/tab1" render={()=><Tab/>}
 
@@ -29,7 +45,7 @@ const Tabs: React.FC = () => {
              <Tab2/>
 
               </Route>
-              <Route path="/home/tab3"
+              <Route  path="/home/tab3"
               render={()=><Tab3/>
               }
               />
