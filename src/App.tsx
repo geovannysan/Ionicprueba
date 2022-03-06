@@ -56,7 +56,7 @@ const App: React.FC = (store) => {
   const dispatch = useDispatch()
   //  A simple, hard-coded navigation
 
-  let history = useHistory();
+ // let history = useHistory();
   const [error, setError] = useState("")
   const [Toast1, setToast1] = useState<boolean>(false)
   const [form1, setForm1] = useState({

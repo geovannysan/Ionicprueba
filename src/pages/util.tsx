@@ -1,4 +1,5 @@
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+
 import {File} from '@ionic-native/file';
 export const readSecretFile = async () => {
 	try{
@@ -10,7 +11,7 @@ return contents;
 };
 export const Filedatos = async()=>{///me develve undefined
 	try{
-		const res = await File.listDir(File.dataDirectory,'files')
+		const res = await File.listDir(File.dataDirectory,'mydir')
 		return res;
 		}catch(error){
 		return error;}}

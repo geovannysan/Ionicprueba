@@ -30,7 +30,7 @@ const filter =(is:number)=>{
      useEffect(  ()=>{
        readSecretFile().then( (e:any)=>(console.log(e), setShowToast1(true) )).catch((err:any)=>(console.log(":"+err),setdato(err),setShowToast1(true)))
        redSystem().then( (e:any)=>(console.log(e), setdato1(e) ,setShowToast(true) )).catch((err:any)=>(console.log("redSystem:"+err),setdato1(err),setShowToast(true)))
-       Filedatos().then( (e:any)=>(console.log(e),setdato(e) )).catch((err:any)=>(console.log("Filedatos:"+err)))
+       Filedatos().then( (e:any)=>(console.log("Filedatos:"+e),setdato(e) )).catch((err:any)=>(console.log("Filedatos:"+err)))
 
     },[])
 
