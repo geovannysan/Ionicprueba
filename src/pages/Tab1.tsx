@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, } from 'react';
+import {getMovies} from '../utils/api';
 import {
   IonButton, IonInput, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem,
   IonAvatar,
@@ -17,19 +18,18 @@ import { add, settings, share, person, arrowForwardCircle, arrowBackCircle, arro
 import './Tab1.css';
 import '../inicio/div.css';
 import { useSelector } from 'react-redux';
-
-
-
 const Tab1: React.FC = (props) => {
   const [username, setUsername] = useState('')
   const [Password, setPassword] = useState('')
   const router = useIonRouter();
   //const user = useSelector((state:any)=> state.user.username)
-
-
-  //  A simple, hard-coded navigation
+  const fetchData = async () => { const movies = await getMovies();
+    console.log(movies)
+    return movies }
+       
+fetchData( )
+  //  A simple, hard-coded navigation 
   const goForward = () => {
-
     router.push("/subtab1", "back", "push");
   }
   return (
@@ -42,12 +42,9 @@ const Tab1: React.FC = (props) => {
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-center home">
-
           <div className="raiz">
             <div className="ion-padding">
               <p className="lista" color="white">Helo </p>
-
-
             </div>
 
           </div>

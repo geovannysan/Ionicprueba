@@ -95,8 +95,7 @@ const Tab2: React.FC = () => {
 
 
   useEffect(() => {
-    getData()
-      .then((data:any) => {
+    getData().then((data:any) => {
         data.forEach(async (valor: any, indice: number) => {
           const ids = await (await fetch(valor.varieties["0"].pokemon["url"])).json()
           const dat = await ids.types
@@ -155,18 +154,18 @@ const Tab2: React.FC = () => {
     }
 
   }
-  const enviar = (e: any) => {
-    const js = JSON.stringify(e);
+  const enviar = (path: any) => {
+    const js = JSON.stringify(path);
     //Convirtiendo a objeto javascript
     let data = JSON.parse(js);
-    dispatch(setUSerState(e))
+    dispatch(setUSerState(path))
     console.log(js)
     console.log(data)
-    console.log(e)
+   
 
   }
-  const datos = async (s: string) => {
-    const dat = await fetch(s)
+  const datos = async (path: string) => {
+    const dat = await fetch(path)
     if (dat.status) {
       return true;
     } else {
@@ -174,7 +173,20 @@ const Tab2: React.FC = () => {
     }
 
   }
+const datoscolor = async(path:string)=>{
+   try{
+    const {color}:any = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${path}`).then((x) => x.json());
+    
+   return color.name
 
+    
+  }catch(error){
+ 
+  }
+
+  }
+ 
+ 
 
 
   const filterNames = (nombre: any) => {
@@ -209,10 +221,11 @@ const Tab2: React.FC = () => {
           {
 
             pok.sort().filter(filterNames).map((value: any, idx: number, []) => (
+ 
 
               <div key={idx} className=" no-padding-top" >
-                <IonCard style={{
-                  backgroundColor: `${value.color}`
+                <IonCard style={{   
+                  backgroundColor: `${(datoscolor(value.nombre).then(x=>x))}`
                 }}>
                   <div className="mask">
                     <img src={Car2} />
@@ -224,7 +237,7 @@ const Tab2: React.FC = () => {
                         </IonCardSubtitle>
 
                         <IonCardTitle>{value.nombre}</IonCardTitle>
-                        <IonCardSubtitle>
+                        <IonCardSubtitle> 
                           {
                             value.types.map((v: any, i: number) => (<IonBadge style={{
                               margin: "3px"
