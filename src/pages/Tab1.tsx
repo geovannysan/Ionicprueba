@@ -24,7 +24,7 @@ const Tab1: React.FC = (props) => {
   const router = useIonRouter();
   //const user = useSelector((state:any)=> state.user.username)
   const fetchData = async () => { const movies = await getMovies();
-    console.log(movies)
+   // console.log(movies)
     return movies }
        
 fetchData( )

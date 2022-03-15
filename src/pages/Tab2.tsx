@@ -32,11 +32,13 @@ import Car from '../assets/types/Electric.png';
 import Car1 from '../assets/images/001.png';
 import Car2 from '../assets/pokeball.png';
 import { addFavor, setUSerState } from '../redux/action';
+import {datoscolor} from '../utils/api';
+
 
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit'
 import Itemss from '../components/Items'
-
+import {getMovies} from '../utils/api';
 
 import './Tab2.scss';
 
@@ -92,19 +94,15 @@ const Tab2: React.FC = () => {
   const [disableInfiniteScroll, setDisableInfiniteScroll] = useState<boolean>(false);
   const car: any = []
 
-
+const Infopoke = async () => { const data:any = await getMovies();
+    
+    setCont(data[0])
+    setPokemon(data[1])
+    return pok }
 
   useEffect(() => {
-    getData().then((data:any) => {
-        data.forEach(async (valor: any, indice: number) => {
-          const ids = await (await fetch(valor.varieties["0"].pokemon["url"])).json()
-          const dat = await ids.types
-          await car.push({ id: valor.order, nombre: valor.name, types: dat, color: valor.color.name, img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/` + valor.id + `.svg` })
-          setPokemon([...car.sort()])
-        });
-        setver(true)
-
-      })
+Infopoke()
+   
   }, [])
   async function searchNext($event: CustomEvent<void>) {
     await getData1().then((res:any) => {
@@ -125,20 +123,7 @@ const Tab2: React.FC = () => {
     ($event.target as HTMLIonInfiniteScrollElement).complete();
   }
 
-  async function getData() {
-    try {
-      const ids = await (await fetch('https://pokeapi.co/api/v2/pokemon/')).json()
-      setCont(ids.next)
-      const data = Promise.all(
-        ids.results.map(async (i: any) => await (await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i.url.slice(-6, -1).replace("m", "").replace("o", "").replace("n", "").replace("/", "")}/`)).json())
-      )
-      return data
-    } catch (error) {
-      return (error)
-      console.log(error)
-
-    }
-  }
+  
   async function getData1() {
     try {
       const ids = await (await fetch(cont)).json()
@@ -149,7 +134,7 @@ const Tab2: React.FC = () => {
       return data
     } catch (error) {
       return (error)
-      console.log(error)
+     // console.log(error)
 
     }
 
@@ -159,38 +144,19 @@ const Tab2: React.FC = () => {
     //Convirtiendo a objeto javascript
     let data = JSON.parse(js);
     dispatch(setUSerState(path))
-    console.log(js)
-    console.log(data)
+    //console.log(js)
+   // console.log(data)
    
 
   }
-  const datos = async (path: string) => {
-    const dat = await fetch(path)
-    if (dat.status) {
-      return true;
-    } else {
-      return false;
-    }
 
-  }
-const datoscolor = async(path:string)=>{
-   try{
-    const {color}:any = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${path}`).then((x) => x.json());
-    
-   return color.name
+      
+       
 
-    
-  }catch(error){
  
-  }
-
-  }
- 
- 
-
 
   const filterNames = (nombre: any) => {
-    return nombre.nombre.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
+    return nombre.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
   };
   return (
     <IonPage >
@@ -221,53 +187,57 @@ const datoscolor = async(path:string)=>{
           {
 
             pok.sort().filter(filterNames).map((value: any, idx: number, []) => (
- 
-
-              <div key={idx} className=" no-padding-top" >
-                <IonCard style={{   
-                  backgroundColor: `${(datoscolor(value.nombre).then(x=>x))}`
-                }}>
-                  <div className="mask">
-                    <img src={Car2} />
-                  </div>
-                  <IonCardContent>
-                    <IonRow>
-                      <IonCol size="8">
-                        <IonCardSubtitle class="no">#{value.id}
-                        </IonCardSubtitle>
-
-                        <IonCardTitle>{value.nombre}</IonCardTitle>
-                        <IonCardSubtitle> 
-                          {
-                            value.types.map((v: any, i: number) => (<IonBadge style={{
-                              margin: "3px"
-                            }} key={i} >
-                              <img src={`https://duiker101.github.io/pokemon-type-svg-icons/icons/${v.type.name}.svg`} alt=""
-                              />
-                              <span>{v.type.name}</span>
-                            </IonBadge>))}
-
-                        </IonCardSubtitle>
-                        <IonButton size="small" color="light" onClick={() => enviar({ key: nanoid(), id: value.id, nombre: value.nombre, color: value.color, img: value.img, cantidad: 1 })} > <IonIcon className="bi bi-bag-dash-fill" > enviar</IonIcon></IonButton>
-                      </IonCol>
-                      <IonCol size="4">
-                        <IonImg src={datos(value.img) ? value.img : 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{value.id}.png'} />
-
-                      </IonCol>
-
-                    </IonRow>
-
-                  </IonCardContent>
-                </IonCard>
-              </div>
-            ))}
+             
+            
+                          <div key={idx} className=" no-padding-top" >
+                            <IonCard style={{   
+                              backgroundColor: `${value.color["name"]}`
+                            }}>
+                              <div className="mask">
+                                <img src={Car2} />
+                              </div>
+                              <IonCardContent>
+                                <IonRow>
+                                  <IonCol size="8">
+                                    <IonCardSubtitle class="no">#{value.id}
+                                    </IonCardSubtitle>
+            
+                                    <IonCardTitle>{value.name}</IonCardTitle>
+                                    <IonCardSubtitle> 
+                                     { value.types?  value.types.map((v: any, i: number) => (
+                                         <IonBadge style={{
+                                                                      margin: "3px"
+                                                                    }} key={i} >
+                                                                      <img src={`https://duiker101.github.io/pokemon-type-svg-icons/icons/${v.type.name}.svg`} alt=""
+                                                                      />
+                                                                      <span>{v.type.name}</span>
+                                                                    </IonBadge>
+                                                                                  
+                                                                                  )  
+                                          ):''
+                                        }
+            
+                                    </IonCardSubtitle>
+                                    <IonButton size="small" color="light" onClick={() => enviar({ key: nanoid(), id: value.id, nombre: value.nombre, color: value.color, img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${value.id}.png`, cantidad: 1 })} > <IonIcon className="bi bi-bag-dash-fill" > enviar</IonIcon></IonButton>
+                                  </IonCol>
+                                  <IonCol size="4">
+                                    <IonImg src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${value.id}.png`} />
+            
+                                  </IonCol>
+            
+                                </IonRow>
+            
+                              </IonCardContent>
+                            </IonCard>
+                          </div>
+                        ))}
         </IonList>
-          <IonInfiniteScroll threshold="100px" disabled={disableInfiniteScroll}
-            onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
-            <IonInfiniteScrollContent
-              loadingText="Loading more good ...">
-            </IonInfiniteScrollContent>
-          </IonInfiniteScroll>
+          {/*<IonInfiniteScroll threshold="100px" disabled={disableInfiniteScroll}
+                      onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
+                      <IonInfiniteScrollContent
+                        loadingText="Loading more good ...">
+                      </IonInfiniteScrollContent>
+                    </IonInfiniteScroll>*/}
         </div> : <div></div>}
 
       </IonContent>

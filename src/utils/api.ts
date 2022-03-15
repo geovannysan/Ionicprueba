@@ -25,17 +25,26 @@ const types = async (path:string)=> {
 }
 export const getMovies = async () => {
   
-  const { results }: any = await fetch(API_URL).then((x) => x.json());
+  const { results,next }: any = await fetch(API_URL).then((x) => x.json());
+       
+        
+      const data:any = await Promise.all(
+        results.map(async (i: any) => 
+           //await(await await fetch(i.url)).json(),
+          await (await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i.url.slice(-6, -1).replace("m", "").replace("o", "").replace("n", "").replace("/", "")}/`)).json()
+          )
 
-      const data = Promise.all(
-        results.map(async (i: any) => await (await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i.url.slice(-6, -1).replace("m", "").replace("o", "").replace("n", "").replace("/", "")}/`)).json())
       )
-   
+     
+      await data.map(async(a:any)=>{
+        const {types}:any= await   fetch("https://pokeapi.co/api/v2/pokemon/"+a.id).then((x) => x.json())
+        a.types=types;
+      })
+    const arr = data
+  return  [next,arr]   
 
-  console.log( data);
-  return  data
 };
-
+ 
 export const getMovies1 = async (API:string) => {
   
   const { results }: any = await fetch(API).then((x) => x.json());
@@ -56,3 +65,16 @@ export const getMovies1 = async (API:string) => {
 
   return movies;
 };
+export const datoscolor =async (path:string)=>{
+   try{
+    const {color}:any = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${path}`).then((x) => x.json());
+    
+   return color
+
+    
+  }catch(error){
+ return (error)
+      
+  }
+
+  }
