@@ -1,0 +1,28 @@
+.home {
+
+}
+.head {
+  background-color: #0099ff;
+  
+  width: 100%;
+  position: absolute;
+  margin-bottom: 1px;
+  height: 300px;
+}
+.doup {
+  background-color: #ffff;
+  justify-content:  bottom;
+  position: absolute;
+  border-top-right-radius: 50px;
+  border-top-left-radius: 50px;
+  margin-top: 250px;
+
+  margin-bottom: 1 ;
+  height: 65%;
+  /*overflow-y: scroll;
+  overflow-x: hidden;*/
+  
+  width: 100%;
+  
+  
+}

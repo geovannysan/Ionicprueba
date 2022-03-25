@@ -39,31 +39,31 @@ export const getMovies = async () => {
       await data.map(async(a:any)=>{
         const {types}:any= await   fetch("https://pokeapi.co/api/v2/pokemon/"+a.id).then((x) => x.json())
         a.types=types;
+        return a
       })
-    const arr = data
-  return  [next,arr]   
+   
+  return  [next,data]   
 
 };
  
 export const getMovies1 = async (API:string) => {
   
-  const { results }: any = await fetch(API).then((x) => x.json());
-  const movies = results.map(
-    ({
-      name,
-      count,
-      next,
-      url,      
-    }: IResultdata) => ({      
-      title: name,
-      count:count,
-      next:next,
-      pokemon: datos(url),
-      color: types(url),             
-    })
-  );
+  const { results,next }: any = await fetch(API).then((x) => x.json());
+  const data:any = await Promise.all(
+        results.map(async (i: any) => 
+           //await(await await fetch(i.url)).json(),
+          await (await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i.url.slice(-6, -1).replace("m", "").replace("o", "").replace("n", "").replace("/", "")}/`)).json()
+          )
 
-  return movies;
+      )
+     
+      await data.map(async(a:any)=>{
+        const {types}:any= await   fetch("https://pokeapi.co/api/v2/pokemon/"+a.id).then((x) => x.json())
+        a.types=types;
+        return a
+      })
+   
+  return  [next,data]   
 };
 export const datoscolor =async (path:string)=>{
    try{

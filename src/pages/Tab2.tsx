@@ -32,13 +32,13 @@ import Car from '../assets/types/Electric.png';
 import Car1 from '../assets/images/001.png';
 import Car2 from '../assets/pokeball.png';
 import { addFavor, setUSerState } from '../redux/action';
-import {datoscolor} from '../utils/api';
+
 
 
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit'
 import Itemss from '../components/Items'
-import {getMovies} from '../utils/api';
+import {getMovies,getMovies1} from '../utils/api';
 
 import './Tab2.scss';
 
@@ -82,9 +82,7 @@ const PopoverList: React.FC<{
 };
 const Tab2: React.FC = () => {
   const user:any = useSelector((state: any) => state.user);
-  //console.log(Object.keys(user).length)
   const dispatch = useDispatch()
-
   const [present, dismiss] = useIonPopover(PopoverList, { onHide: () => dismiss(), user });
 
   const [ver, setver] = useState(false)
@@ -94,67 +92,37 @@ const Tab2: React.FC = () => {
   const [disableInfiniteScroll, setDisableInfiniteScroll] = useState<boolean>(false);
   const car: any = []
 
-const Infopoke = async () => { const data:any = await getMovies();
-    
-    setCont(data[0])
-    setPokemon(data[1])
-    return pok }
-
+const Infopoke = async () => { 
+  const data:any = await getMovies();  
+    setCont(data[0]) 
+      setPokemon(data[1])
+       return pok 
+     }
   useEffect(() => {
 Infopoke()
-   
   }, [])
   async function searchNext($event: CustomEvent<void>) {
-    await getData1().then((res:any) => {
-      if (cont != null) {
-        setDisableInfiniteScroll(res.length < 10);
-        res.forEach(async (valor: any, indice: number) => {
-          const ids = await (await fetch(valor.varieties["0"].pokemon["url"])).json()
-          const dat = await ids.types
-          await car.push({ id: valor.order, nombre: valor.name, types: dat, color: valor.color.name, img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/` + valor.id + `.svg` })
-          setPokemon([...pok, ...car.sort()])
-        });
-      } else {
-        setDisableInfiniteScroll(false)
-      }
-    }).catch(error => {
-      setDisableInfiniteScroll(true)
-    });
+    try{
+        const data:any = await getMovies1(cont);  
+          if (cont != null) {
+            setDisableInfiniteScroll(data[1].length < 10);
+            setCont(data[0]);
+            setPokemon([...pok,...data[1]])
+
+             const dato = pok;
+             } else {
+            setDisableInfiniteScroll(false)
+          }}catch(error){
+            setDisableInfiniteScroll(true)
+          }
+
     ($event.target as HTMLIonInfiniteScrollElement).complete();
-  }
-
-  
-  async function getData1() {
-    try {
-      const ids = await (await fetch(cont)).json()
-      setCont(ids.next)
-      const data = Promise.all(
-        ids.results.map(async (i: any) => await (await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i.url.slice(-6, -1).replace("m", "").replace("o", "").replace("n", "").replace("/", "")}/`)).json())
-      )
-      return data
-    } catch (error) {
-      return (error)
-     // console.log(error)
-
-    }
-
   }
   const enviar = (path: any) => {
     const js = JSON.stringify(path);
-    //Convirtiendo a objeto javascript
     let data = JSON.parse(js);
     dispatch(setUSerState(path))
-    //console.log(js)
-   // console.log(data)
-   
-
   }
-
-      
-       
-
- 
-
   const filterNames = (nombre: any) => {
     return nombre.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
   };
@@ -232,12 +200,12 @@ Infopoke()
                           </div>
                         ))}
         </IonList>
-          {/*<IonInfiniteScroll threshold="100px" disabled={disableInfiniteScroll}
+          <IonInfiniteScroll threshold="100px" disabled={disableInfiniteScroll}
                       onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
                       <IonInfiniteScrollContent
                         loadingText="Loading more good ...">
                       </IonInfiniteScrollContent>
-                    </IonInfiniteScroll>*/}
+                    </IonInfiniteScroll>
         </div> : <div></div>}
 
       </IonContent>
