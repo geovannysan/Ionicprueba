@@ -2,7 +2,7 @@
 
 }
 .head {
-  background-color: #0099ff;
+  background-color: green;
   
   width: 100%;
   position: absolute;
@@ -23,6 +23,16 @@
   overflow-x: hidden;*/
   
   width: 100%;
-  
-  
 }
+.mask {
+     
+        width: 340px;
+        position: absolute;
+        bottom: 0px;
+        left: 100px;
+
+        
+        mask-image: linear-gradient(to top,rgba(255,255,255,0.3), rgba(255,255,255,0.3));
+        filter: alpha(opacity=50);
+      
+    }

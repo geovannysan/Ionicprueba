@@ -65,6 +65,14 @@ export const getMovies1 = async (API:string) => {
    
   return  [next,data]   
 };
+export const getEspecie= async (path:string)=>{
+ try{
+   const pokemon = await fetch(path).then((x)=>x.json());
+   return pokemon;
+ }catch(error){
+     return error
+   }
+}
 export const datoscolor =async (path:string)=>{
    try{
     const {color}:any = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${path}`).then((x) => x.json());
