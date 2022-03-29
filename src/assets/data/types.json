@@ -1,0 +1,110 @@
+[
+  {
+    "normal" : {
+      "english": "Normal",
+      "spanish":"Normal"
+    }
+  },
+  {
+    "fighting" : {
+      "english": "Fighting",
+      "spanish": "Lucha"
+    }
+  },
+  {
+    "flying" : {
+      "english": "Flying",
+      "spanish": "Volador"
+    }
+  },
+  {
+    "poison" : {
+      "english": "Poison",
+      "spanish": "Veneno"
+    }
+  },
+  {
+    "ground" : {
+      "english": "Ground",
+      "spanish": "Tierra"
+    }
+  },
+  {
+    "rock" : {
+      "english": "Rock",
+      "spanish": "Roca"
+    }
+  },
+  {
+    "bug" : {
+      "english": "Bug",
+      "spanish": "Bicho"
+    }
+  },
+  {
+    "ghost" : {
+      "english": "Ghost",
+      "spanish": "Fantasma"
+    }
+  },
+  {
+    "steel" : {
+      "english": "Steel",
+      "spanish": "Acero"
+    }
+  },
+  {
+    "fire" : {
+      "english": "Fire",
+      "spanish": "Fuego"
+    }
+  },
+  {
+    "water" : {
+      "english": "Water",
+      "spanish": "Agua"
+    }
+  },
+  {
+    "grass" : {
+      "english": "Grass",
+      "spanish": "Planta"
+    }
+  },
+  {
+    "electric" : {
+      "english": "Electric",
+      "spanish": "Eléctrico"
+    }
+  },
+  {
+    "psychic" : {
+      "english": "Psychic",
+      "spanish": "Psíquico"
+    }
+  },
+  {
+    "ice" : {
+      "english": "Ice",
+      "spanish": "Hielo"
+    }
+  },
+  {
+    "dragon" : {
+      "english": "Dragon",
+      "spanish": "Dragón"
+    }
+  },
+  {
+    "dark" : {
+      "english": "Dark",
+      "spanish": "Siniestro"
+    }
+  },
+  {
+    "fairy" : {
+      "english": "Fairy",
+      "spanish": "Hada"
+    }
+  }
+]

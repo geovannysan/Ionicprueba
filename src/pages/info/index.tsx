@@ -8,12 +8,12 @@ import {
   IonSkeletonText,
   IonSegmentButton,
   IonListHeader,
-  IonCard,
- 	IonImg,
+  IonCard,IonRow,
+  IonCardSubtitle,
+ 	IonImg,IonBadge,
   IonSegment,
   IonIcon,
-  IonThumbnail,
-  IonNav, useIonRouter,
+  IonNav, useIonRouter,IonBackButton,
   IonList,CreateAnimation
 } from '@ionic/react';
 import "./info.css";
@@ -26,11 +26,20 @@ const router = useIonRouter();
 
 	const [selected,setSelect] = useState<string>("friends");
 	const[pok,setPok]= useState<any>([]);
+	const[infopoke,setInfopo]=useState<any>([])
+	
    const Infopoke = async () => { 
-  const data:any = await getEspecie("https://pokeapi.co/api/v2/pokemon-species/1");  
+  const data:any = await getEspecie("https://pokeapi.co/api/v2/pokemon-species/1");
+  const pokemon:any = await getEspecie("https://pokeapi.co/api/v2/pokemon/1");
+  
+ 
     const tetp= await data["flavor_text_entries"].filter((e:any)=>e.version["url"]==="https://pokeapi.co/api/v2/version/26/"&& e.language["name"]==="es")
-    await  setPok(tetp)  
-       return pok 
+    await setInfopo(pokemon)
+    await  setPok(tetp) 
+             	console.log(infopoke.name)
+              	
+              	              
+       return [pok ,infopoke];
      }
 
 useEffect(()=>{
@@ -47,8 +56,35 @@ Infopoke();
         </IonHeader>
         <IonContent className="ion-center home">
           <div className="head">
-            <div className="ion-padding">
-              <p className="lista" color="white">Helo </p>
+            <div className="ion-padding container">
+            <div style={{width:"50%"}}>
+             <h2>#{infopoke.id}</h2>
+             </div>
+             <div style={{width:"50%",left: "100px" ,textAlign: "right"}}>           
+              		<h1>{infopoke.name}</h1>
+             	             
+             </div>
+             <div style={{width:"50%",height:"10px"}}></div>
+             <div style={{width:"50%",height:"10px",textAlign: "right"}}>
+              <IonCardSubtitle>
+             {infopoke.length!==0&&
+             infopoke.types.map((e:any,i:number)=>{
+                           		return(
+                           			
+                                  
+                           			<IonBadge style={{margin: "3px"}} key={i} >
+                                       <img className="type" src={`https://duiker101.github.io/pokemon-type-svg-icons/icons/${e.type.name}.svg`} alt=""/>
+                                      <span>{e.type.name}</span>
+                                      </IonBadge>
+                                     
+                                 
+                                   
+                           			)
+                           	})
+                           	             }
+                           	              </IonCardSubtitle>
+             </div>
+             
             </div>
              <div className="mask" >
                                 <img  src={Car2} />
@@ -77,25 +113,12 @@ Infopoke();
           </IonSegment>
           {
           	(selected==="friends")?
-          	<CreateAnimation
-  duration={2000}
-  beforeStyles={{
-    opacity: 0.2
-  }}
-  afterStyles={{
-    background: 'rgba(0, 255, 0, 0.5)'
-  }}
-  afterClearStyles={['opacity']}
-  keyframes={[
-    { offset: 0, transform: 'scale(1)' },
-    { offset: 0.5, transform: 'scale(1.5)' },
-    { offset: 1, transform: 'scale(1)' }
-  ]}>
+      
           	<div style={{width:"100%",display:"flex",justifyContent:"center"}}>
           	<div style={{position:"absolute",justifyContent:"center",alignItems:"center",width:"85%",marginTop:5}}>
-          	{pok.map((e:any)=>{
+          	{pok.map((e:any,i:number)=>{
           	return(
-          		<IonCard> 
+          		<IonCard key={i}> 
           		<span>
           	          		
           	    {e.flavor_text}
@@ -105,11 +128,14 @@ Infopoke();
           	          	)
           	          	})}
 
-          	</div></div></CreateAnimation>:<div></div>
+          	</div></div>:<div></div>
           	}
           {
           	(selected==="enemies")?
           	<div></div>:<div></div> 	
+          }
+          {
+
           }
           
           </div>          

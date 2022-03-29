@@ -124,7 +124,7 @@ Infopoke()
     dispatch(setUSerState(path))
   }
   const filterNames = (nombre: any) => {
-    return nombre.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
+    return nombre.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1 || nombre.id.toLowerCase().indexOf(searchValue.toLowerCase()) !==-1;
   };
   return (
     <IonPage >
@@ -173,10 +173,9 @@ Infopoke()
                                     <IonCardTitle>{value.name}</IonCardTitle>
                                     <IonCardSubtitle> 
                                      { value.types?  value.types.map((v: any, i: number) => (
-                                         <IonBadge style={{
-                                                                      margin: "3px"
-                                                                    }} key={i} >
-                                                                      <img src={`https://duiker101.github.io/pokemon-type-svg-icons/icons/${v.type.name}.svg`} alt=""
+                                         <IonBadge style={{ margin: "3px"}} key={i} >
+
+                                           <img src={`https://duiker101.github.io/pokemon-type-svg-icons/icons/${v.type.name}.svg`} alt=""
                                                                       />
                                                                       <span>{v.type.name}</span>
                                                                     </IonBadge>
