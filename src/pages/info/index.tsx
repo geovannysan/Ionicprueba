@@ -11,14 +11,15 @@ import {
   IonCard,IonRow,
   IonCardSubtitle,
  	IonImg,IonBadge,
-  IonSegment,
-  IonIcon,
+  IonSegment,IonButtons,
+  IonIcon,IonCardTitle,
   IonNav, useIonRouter,IonBackButton,
   IonList,CreateAnimation
 } from '@ionic/react';
 import "./info.css";
 import Car2 from '../../assets/pokeball.png';
 import {getEspecie}from '../../utils/api';
+import { heart,arrowBack, personCircle, map, informationCircle } from 'ionicons/icons';
 
 
 const Info: React.FC = () => {
@@ -35,10 +36,7 @@ const router = useIonRouter();
  
     const tetp= await data["flavor_text_entries"].filter((e:any)=>e.version["url"]==="https://pokeapi.co/api/v2/version/26/"&& e.language["name"]==="es")
     await setInfopo(pokemon)
-    await  setPok(tetp) 
-             	console.log(infopoke.name)
-              	
-              	              
+    await  setPok(tetp)    	             	      	              
        return [pok ,infopoke];
      }
 
@@ -49,10 +47,20 @@ Infopoke();
 		<IonPage>
 
       <IonContent fullscreen >
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Tab 1</IonTitle>
-          </IonToolbar>
+        <IonHeader className="ion-no-border no-border">
+          <IonToolbar >
+          <IonButtons slot="start">
+          <IonBackButton defaultHref={"/"}/>
+        </IonButtons>
+        <IonButtons slot="end">
+	    	<IonButton  fill="clear"  >
+	              
+	                <IonIcon   icon={heart} />
+	        </IonButton>      
+    	</IonButtons>
+  
+    </IonToolbar>
+              
         </IonHeader>
         <IonContent className="ion-center home">
           <div className="head">
@@ -66,28 +74,31 @@ Infopoke();
              </div>
              <div style={{width:"50%",height:"10px"}}></div>
              <div style={{width:"50%",height:"10px",textAlign: "right"}}>
-              <IonCardSubtitle>
-             {infopoke.length!==0&&
+              <IonCardSubtitle className="custom-skeleton" >
+             {(infopoke.length!==0)?
              infopoke.types.map((e:any,i:number)=>{
                            		return(
                            			
                                   
                            			<IonBadge style={{margin: "3px"}} key={i} >
-                                       <img className="type" src={`https://duiker101.github.io/pokemon-type-svg-icons/icons/${e.type.name}.svg`} alt=""/>
+                                       
+                                       	<img className="type" src={`https://duiker101.github.io/pokemon-type-svg-icons/icons/${e.type.name}.svg`} alt=""/>
+                                       
                                       <span>{e.type.name}</span>
+
                                       </IonBadge>
                                      
                                  
                                    
                            			)
-                           	})
+                           	}):<IonBadge><IonSkeletonText className="type"animated style={{ height:"100%"}} /></IonBadge>
                            	             }
                            	              </IonCardSubtitle>
              </div>
              
             </div>
              <div className="mask" >
-                                <img  src={Car2} />
+                                             <img  src={Car2} />
                               </div>
           </div>
          
@@ -97,26 +108,24 @@ Infopoke();
           	src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg"}
           	/>
           </div>
-          <IonSegment scrollable  style={{marginTop:20}} onIonChange={(e:any) => setSelect(e.detail.value)}>
+          <IonSegment mode="md" scrollable  style={{marginTop:20}} onIonChange={(e:any) => setSelect(e.detail.value)}>
           <IonSegmentButton value="friends">
-            <p>Acerca</p>
+            <p>Base</p>
           </IonSegmentButton>
           <IonSegmentButton value="enemies">
-            <p>Base Stats</p>
+            <p>Stats</p>
           </IonSegmentButton>
           <IonSegmentButton value="stat">
             <p>Evolutio</p>
           </IonSegmentButton>
-          <IonSegmentButton value="ataques">
-            <p>Moves</p>
-          </IonSegmentButton>
+          
           </IonSegment>
           {
           	(selected==="friends")?
       
-          	<div style={{width:"100%",display:"flex",justifyContent:"center"}}>
-          	<div style={{position:"absolute",justifyContent:"center",alignItems:"center",width:"85%",marginTop:5}}>
-          	{pok.map((e:any,i:number)=>{
+          	<div style={{width:"100%",display:"flex" ,justifyContent:"center"}}>
+          	<div  className="custom-skeleton" style={{position:"absolute",justifyContent:"center",width:"85%",marginTop:5}}>
+          	{(pok.length!==0)?pok.map((e:any,i:number)=>{
           	return(
           		<IonCard key={i}> 
           		<span>
@@ -126,9 +135,41 @@ Infopoke();
           	          	<br></br>
           	          	</IonCard>
           	          	)
-          	          	})}
+          	          	}):<IonCard><IonSkeletonText animated style={{ width: '100%' ,height:"100%"}} /></IonCard>}
+          	<div style={{display:"flex"
+          	,marginTop:"-15%"
+          	,flexDirection:"row",
+          	justifyContent:"space-between" }}>
+          		
+          		<div style={{width:"45%",}}>
+				<IonCard style={{height:"100%",justifyContent:"center"}}> 
+          		          	          		
+          	   <IonCardSubtitle>Height</IonCardSubtitle>
+            <IonCardTitle>{infopoke.height} cm</IonCardTitle>
+          	    
+          	   
 
-          	</div></div>:<div></div>
+          	    </IonCard>
+          	    </div >
+          	    
+
+          	    <div style={{width:"45%",}}>
+				<IonCard style={{height:"100%",justifyContent:"center"}}> 
+          		      <IonCardSubtitle>Weight</IonCardSubtitle>
+            <IonCardTitle>{infopoke.weight} kg</IonCardTitle>
+          	        	          		
+          	    
+          	    
+          	   
+
+          	    </IonCard>
+          	    </div >
+          	    </div>
+          	    
+
+          	</div>
+          	
+          	</div>:<div></div>
           	}
           {
           	(selected==="enemies")?
