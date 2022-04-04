@@ -73,11 +73,28 @@ export const getEspecie= async (path:string)=>{
      return error
    }
 }
-export const datoscolor =async (path:string)=>{
+const dato =(path:string)=>`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${path}.svg`;
+export const getevol =async (path:string)=>{
    try{
-    const {color}:any = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${path}`).then((x) => x.json());
+    const {chain} = await fetch(path).then((x) => x.json());
     
-   return color
+   const datos:any= {nom:chain.species.name,url:dato(chain.species.url.slice(-6, -1).replace("i", "").replace("e", "").replace("s", "").replace("/", ""))};
+    const nuevo:[] = await  chain["evolves_to"].map((e:any)=>{
+        const nombre= e.species.name;
+        const ur = e.species.url;
+        const detalle=  e["evolves_to"].map((e:any)=>{return e["evolution_details"][0]["min_level"]})
+        const detalle2= e["evolution_details"][0]["min_level"]
+       const nombre2=  e["evolves_to"][0].species.name;
+       return[datos,{lev:[detalle2]},{nom:nombre,url: dato(ur.slice(-6, -1).replace("i", "").replace("e", "").replace("s", "").replace("/", ""))}
+       ,{nom:nombre,url: dato(ur.slice(-6, -1).replace("i", "").replace("e", "").replace("s", "").replace("/", ""))},{lev:detalle}
+       ,{nom:nombre2,url:dato(e["evolves_to"][0].species.url.slice(-6, -1).replace("i", "").replace("e", "").replace("s", "").replace("/", ""))}]
+      
+      
+     
+    })
+     
+    
+   return nuevo
 
     
   }catch(error){
