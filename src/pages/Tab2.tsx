@@ -21,7 +21,7 @@ import {
   IonButton,
   useIonPopover,
   IonAvatar,
-  IonLabel,
+  IonLabel,useIonRouter,
   createAnimation,
   IonSearchbar,
   IonList
@@ -90,8 +90,11 @@ const Tab2: React.FC = () => {
   const [cont, setCont] = useState("")
   const [pok, setPokemon] = useState([{ id: '', nombre: '', types: {}, color: '', img: '' }])
   const [disableInfiniteScroll, setDisableInfiniteScroll] = useState<boolean>(false);
-  const car: any = []
 
+  const router = useIonRouter();
+ const goForward = (id:string) => {
+    router.push(`/subtab1/${id}`, "back", "push");
+  }
 const Infopoke = async () => { 
   const data:any = await getMovies();  
     setCont(data[0]) 
@@ -124,7 +127,7 @@ Infopoke()
     dispatch(setUSerState(path))
   }
   const filterNames = (nombre: any) => {
-    return nombre.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1 || nombre.id.toLowerCase().indexOf(searchValue.toLowerCase()) !==-1;
+    return nombre.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1 ;
   };
   return (
     <IonPage >
@@ -145,7 +148,6 @@ Infopoke()
         </IonToolbar>
         <IonSearchbar mode="ios"
           type="text"
-
           onIonChange={(e: any) => setSearchValue(e.target.value)}
           value={searchValue}
         />
@@ -157,7 +159,7 @@ Infopoke()
             pok.sort().filter(filterNames).map((value: any, idx: number, []) => (
              
             
-                          <div key={idx} className=" no-padding-top" >
+                          <div key={idx} className=" no-padding-top" onClick={()=>goForward(value.id)}>
                             <IonCard style={{   
                               backgroundColor: `${value.color["name"]}`
                             }}>
@@ -185,7 +187,8 @@ Infopoke()
                                         }
             
                                     </IonCardSubtitle>
-                                    <IonButton size="small" color="light" onClick={() => enviar({ key: nanoid(), id: value.id, nombre: value.nombre, color: value.color, img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${value.id}.png`, cantidad: 1 })} > <IonIcon className="bi bi-bag-dash-fill" > enviar</IonIcon></IonButton>
+                                    {/*<IonButton size="small" color="light" onClick={() => enviar({ key: nanoid(), id: value.id, nombre: value.nombre, color: value.color, img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${value.id}.png`, cantidad: 1 })} > 
+                                                                        <IonIcon className="bi bi-bag-dash-fill" > enviar</IonIcon></IonButton>*/}
                                   </IonCol>
                                   <IonCol size="4">
                                     <IonImg src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${value.id}.png`} />

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, } from 'react';
 import { Storage } from '@capacitor/storage';
-import { Redirect, Route, useHistory, withRouter } from 'react-router';
+import { Redirect, Route, useHistory, withRouter,RouteComponentProps } from 'react-router';
+
 import {
   IonApp,
   IonPage,
@@ -53,7 +54,7 @@ import { useDispatch, useSelector } from 'react-redux';
 /* Theme variables */
 import './theme/variables.css';
 import './theme/tabar.css';
-const App: React.FC = (store) => {
+const App: React.FC  = (store) => {
   //const history = createBrowserHistory();
   const dispatch = useDispatch()
   //  A simple, hard-coded navigation
@@ -199,7 +200,7 @@ const App: React.FC = (store) => {
         <IonReactRouter  >
           <IonRouterOutlet id="main" animation={animationBuilder} >
 
-            <Route exact path="/subtab1" render={() => <Sub/>} />
+            <Route exact path="/subtab1/:groupid" component={Sub} />
             <Route path="/home"  >
               <Taba />
             </Route>

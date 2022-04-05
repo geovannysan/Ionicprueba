@@ -21,24 +21,28 @@ import "./info.css";
 import Car2 from '../../assets/pokeball.png';
 import {getEspecie,getevol}from '../../utils/api';
 import { heart,arrowBack, personCircle, map, informationCircle } from 'ionicons/icons';
-
-
+import { RouteComponentProps,useParams } from 'react-router';
+interface UserDetailPageProps extends RouteComponentProps<{
+  id: string;
+}> {}
 const Info: React.FC = () => {
 const router = useIonRouter();
+let id:any= useParams();
 
 	const [selected,setSelect] = useState<string>("friends");
 	const[pok,setPok]= useState<any>([]);
 	const[evolu,setEvo]=useState<any>([]);
+	const[color,setColor]=useState<string>("")
 	const[infopoke,setInfopo]=useState<any>([])
     const val=["primary","secondary","tertiary","success","warning","danger","light","medium","dark"]
 	
    const Infopoke = async () => { 
-	const data:any = await getEspecie("https://pokeapi.co/api/v2/pokemon-species/1");
- 	const pokemon:any = await getEspecie("https://pokeapi.co/api/v2/pokemon/1");
+	const data:any = await getEspecie(`https://pokeapi.co/api/v2/pokemon-species/${id.groupid}`);
+ 	const pokemon:any = await getEspecie(`https://pokeapi.co/api/v2/pokemon/${id.groupid}`);
  	const evol:string = await data["evolution_chain"].url;
  	const Ecolucion:any = await getevol(evol);
     const tetp= await data["flavor_text_entries"].filter((e:any)=>e.version["url"]==="https://pokeapi.co/api/v2/version/26/"&& e.language["name"]==="es")
-   
+   await setColor(data.color.name)
           	 
     await setInfopo(pokemon)
     await  setPok(tetp)
@@ -50,6 +54,8 @@ const router = useIonRouter();
 useEffect(()=>{
 Infopoke();
 },[])
+		
+
 	return(
 		<IonPage>
 
@@ -70,7 +76,7 @@ Infopoke();
               
         </IonHeader>
         <IonContent className="ion-center home">
-          <div className="head">
+          <div className="head" style={{backgroundColor:color}}>
             <div className="ion-padding container">
             <div style={{width:"50%"}}>
              <h2>#{infopoke.id}</h2>
@@ -112,7 +118,7 @@ Infopoke();
           <div className="doup">
           <div >
           	<IonImg style={{height:"150px",marginTop:"-100px",}}
-          	src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg"}
+          	src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/"+id.groupid+".svg"}
           	/>
           </div>
           <IonSegment mode="md" scrollable  style={{marginTop:20}} onIonChange={(e:any) => setSelect(e.detail.value)}>
@@ -143,12 +149,11 @@ Infopoke();
           	          	</IonCard>
           	          	)
           	          	}):<IonCard><IonSkeletonText animated style={{ width: '100%' ,height:"100%"}} /></IonCard>}
-          	<div style={{display:"flex"
-          	,marginTop:"-15%"
+          	<div style={{width:"100%",display:"flex",marginTop:"-15%"
           	,flexDirection:"row",
           	justifyContent:"space-between" }}>
           		
-          		<div style={{width:"45%",}}>
+          		<div style={{width:"50%",}}>
 				<IonCard style={{height:"100%",justifyContent:"center"}}> 
           		          	          		
           	   <IonCardSubtitle>Height</IonCardSubtitle>
@@ -161,7 +166,7 @@ Infopoke();
           	    
 
           	    <div style={{width:"45%",}}>
-				<IonCard style={{height:"100%",justifyContent:"center"}}> 
+				<IonCard style={{height:"100%",textAlign:"center",justifyContent:"center"}}> 
           		      <IonCardSubtitle>Weight</IonCardSubtitle>
             <IonCardTitle>{infopoke.weight} kg</IonCardTitle>
           	   
@@ -202,7 +207,7 @@ Infopoke();
           }
           {<div>
           	{(selected==="stat")?
-          	evolu.length!==0&&(
+          	(evolu[0])&&evolu[0].length!==0&&(
           		<IonRow style={{textAlign:"center"}}>
           			{evolu[0].map((e:any,i:number)=>{
           				
@@ -215,14 +220,18 @@ Infopoke();
           				          					</IonCard>
           				          				</IonCol>)
           				}
-          				return(<IonCol size="4" key={i}>
+          				if (e) {
+          					return(<IonCol size="4" key={i}>
           					<IonCard>
           					<br></br>
           					<br></br>
           				          					<IonCardSubtitle style={{textAlign:"25%"}}>{e.lev}</IonCardSubtitle>
           				          					<IonCardSubtitle style={{textAlign:"25%"}}>Level min</IonCardSubtitle>
+          				          					<i className="bi bi-arrow-right" />
           				          					</IonCard>
           				          				</IonCol>)
+          				}
+          				
           				
           			})}
           		</IonRow>

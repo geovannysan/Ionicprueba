@@ -16,32 +16,16 @@ import {
   IonTabs,
 } from '@ionic/react';
 import { ellipse, square, triangle, folder } from 'ionicons/icons';
-const animationBuilder = (baseEl: any, opts?: any) => {
-    const enteringAnimation = createAnimation()
-      .addElement(opts.enteringEl)
-      .fromTo('opacity', 0, 1)
-      .duration(350);
 
-    const leavingAnimation = createAnimation()
-      .addElement(opts.leavingEl)
-      .fromTo('opacity', 1, 0)
-      .duration(350);
-
-    const animation = createAnimation()
-      .addAnimation(enteringAnimation)
-      .addAnimation(leavingAnimation);
-
-    return animation;
-  };
 const Tabs: React.FC = () => {
   return (
      <IonTabs >
             <IonRouterOutlet >
            
-              <Route exact path="/home/tab1" render={()=><Tab/>}
-
-              />
-              <Route exact path="/home/tab2">
+         {/*     <Route exact path="/home/tab1" render={()=><Tab/>}
+         
+                       />*/}
+              <Route exact path="/home/tab1">
              <Tab2/>
 
               </Route>
@@ -63,18 +47,18 @@ const Tabs: React.FC = () => {
                     <p>Home</p>
                   </div>
               </IonTabButton>
-              <IonTabButton className="tab" tab="tab2" href="/home/tab2">
+              <IonTabButton className="tab" tab="tab3" href="/home/tab3">
                  <div className="tab pink">
                     <i className="bi bi-heart-fill" />
                     <p>Favoritos</p>
                   </div>
               </IonTabButton>
-              <IonTabButton className="tab"  tab="tab3" href="/home/tab3">
-                <div className="tab teal">
-                    <i className="bi bi-person-badge-fill" />
-                    <p>facturas</p>
-                    </div>
-              </IonTabButton>
+              {/*<IonTabButton className="tab"  tab="tab3" href="/home/tab3">
+                              <div className="tab teal">
+                                  <i className="bi bi-person-badge-fill" />
+                                  <p>facturas</p>
+                                  </div>
+                            </IonTabButton>*/}
             </IonTabBar>
 
           </IonTabs>
