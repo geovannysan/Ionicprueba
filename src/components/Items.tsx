@@ -14,7 +14,7 @@ import {
 } from '@ionic/react';
 import { add, settings, share, person, arrowForwardCircle, arrowBackCircle, arrowUpCircle, logoVimeo, logoFacebook, logoInstagram, logoTwitter } from 'ionicons/icons';
 const PopoverList: React.FC<{ id: any}> = props => {
-    const { nombre,img } = props.id ;
+    const { nombre,img ,color} = props.id ;
     return (<div>
 
         <IonItem button >

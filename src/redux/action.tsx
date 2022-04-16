@@ -5,8 +5,9 @@
 export const setUSerState=(payload:any)=>{
 	return{type:'SET_USER_STATE',payload}
 }
-export const addFavor=(payload:any)=>{
-	
-//const da:any =user.user.filter((item:any,index:number) => item.key == payload.key)
+export const deFavor=(payload:any)=>{
 	return {type:'DELETE_FAVORITE',payload}
+}
+export const listPokem=(payload:any)=>{
+	return{type:'SET_pokemi_STATE',payload}
 }

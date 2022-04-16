@@ -13,7 +13,7 @@ import {
 import { ellipse, square, triangle, folder } from 'ionicons/icons';
 import './Tab3.css';
 import Itemss from '../components/Items'
-import { addFavor, setUSerState } from '../redux/action';
+import {deFavor, setUSerState } from '../redux/action';
 import { Capacitor } from "@capacitor/core";
 import { useDispatch, useSelector } from 'react-redux';
 const Tab3: React.FC = () => {
@@ -24,13 +24,13 @@ const Tab3: React.FC = () => {
   const [datos,setdato1]= useState("")
   const dispatch = useDispatch()
 const filter =(is:number)=>{
-        dispatch(addFavor(is))
+        dispatch(deFavor(is))
     }
 
      useEffect(  ()=>{
-       readSecretFile().then( (e:any)=>(console.log(e), setShowToast1(true) )).catch((err:any)=>(console.log(":"+err),setdato(err),setShowToast1(true)))
-       redSystem().then( (e:any)=>(console.log(e), setdato1(e) ,setShowToast(true) )).catch((err:any)=>(console.log("redSystem:"+err),setdato1(err),setShowToast(true)))
-       Filedatos().then( (e:any)=>(console.log("Filedatos:"+e),setdato(e) )).catch((err:any)=>(console.log("Filedatos:"+err)))
+       //readSecretFile().then( (e:any)=>(console.log(e), setShowToast1(true) )).catch((err:any)=>(console.log(":"+err),setdato(err),setShowToast1(true)))
+     //  redSystem().then( (e:any)=>(console.log(e), setdato1(e) ,setShowToast(true) )).catch((err:any)=>(console.log("redSystem:"+err),setdato1(err),setShowToast(true)))
+      // Filedatos().then( (e:any)=>(console.log("Filedatos:"+e),setdato(e) )).catch((err:any)=>(console.log("Filedatos:"+err)))
 
     },[])
 
@@ -38,7 +38,7 @@ const filter =(is:number)=>{
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Tab 3</IonTitle>
+          <IonTitle>Favoritos</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent >
@@ -46,11 +46,11 @@ const filter =(is:number)=>{
 {dato ? <div>{dato}</div>: <div >
  
 </div>}
-        {/*user.user  ? user.user.map((va: any, i: number) => (
+        {user.user  ? user.user.map((va: any, i: number) => (
 
           <div key={i}>
 
-        <IonItem button onClick={() => filter(i) }>
+        <IonItem button onClick={() => filter(va.id) } className="ion-no-border">
             <IonAvatar slot="start">
                 <img src={va.img} />
             </IonAvatar>
@@ -58,7 +58,7 @@ const filter =(is:number)=>{
               {va.nombre}
             </IonLabel>
         </IonItem>
-    </div>)):<div/> */}
+    </div>)):<div/>}
 
 
  <IonToast
@@ -112,7 +112,7 @@ const filter =(is:number)=>{
       </IonContent>
       <IonFooter>
         <IonToolbar>
-          <IonTitle> {0}</IonTitle>
+          <IonTitle> Total {user.user?user.user.length:0}</IonTitle>
         </IonToolbar>
       </IonFooter>
     </IonPage>

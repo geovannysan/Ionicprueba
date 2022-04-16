@@ -20,23 +20,44 @@ import { RangeValue } from '@ionic/core';
 import "./info.css";
 import Car2 from '../../assets/pokeball.png';
 import {getEspecie,getevol}from '../../utils/api';
-import { heart,arrowBack, personCircle, map, informationCircle } from 'ionicons/icons';
+import { heart,heartDislike,arrowBack, personCircle, map, informationCircle } from 'ionicons/icons';
 import { RouteComponentProps,useParams } from 'react-router';
-interface UserDetailPageProps extends RouteComponentProps<{
-  id: string;
-}> {}
-const Info: React.FC = () => {
-const router = useIonRouter();
-let id:any= useParams();
+import { deFavor, setUSerState } from '../../redux/action';
+import { useDispatch, useSelector } from 'react-redux';
+import { nanoid } from '@reduxjs/toolkit'
 
+
+
+const Info: React.FC = () => {
 	const [selected,setSelect] = useState<string>("friends");
 	const[pok,setPok]= useState<any>([]);
 	const[evolu,setEvo]=useState<any>([]);
 	const[color,setColor]=useState<string>("")
 	const[infopoke,setInfopo]=useState<any>([])
     const val=["primary","secondary","tertiary","success","warning","danger","light","medium","dark"]
+const router = useIonRouter();
+const dispatch= useDispatch();
+let id:any= useParams();
+ const user:any = useSelector((state: any) => state.user);
+
+  const Istrue =  user.some((item:any)=>item.id === infopoke.id);
+   
+ const goForward = (id:string) => {
+    
+  }
+const enviar = (path: any) => {
+	
+	if (!user.includes((e:any)=> e.id===infopoke.id)){const js = JSON.stringify(path);
+	    let data = JSON.parse(js);
+	    dispatch(setUSerState(path))}
+	    else{
+
+	    }
+  }
+	
 	
    const Infopoke = async () => { 
+   	try{
 	const data:any = await getEspecie(`https://pokeapi.co/api/v2/pokemon-species/${id.groupid}`);
  	const pokemon:any = await getEspecie(`https://pokeapi.co/api/v2/pokemon/${id.groupid}`);
  	const evol:string = await data["evolution_chain"].url;
@@ -49,6 +70,10 @@ let id:any= useParams();
    await setEvo(Ecolucion)
 
     return [pok ,infopoke,evolu];
+}catch(err){
+	router.push(`/home`, "back", "push");
+}
+
      }
 
 useEffect(()=>{
@@ -66,10 +91,14 @@ Infopoke();
           <IonBackButton defaultHref={"/"}/>
         </IonButtons>
         <IonButtons slot="end">
-	    	<IonButton  fill="clear"  >
+	    	 {
+	    	 	!Istrue?<IonButton  fill="clear" onClick={() => dispatch(setUSerState({  id: infopoke.id, nombre: infopoke.name, color: color, img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${infopoke.id}.png`, cantidad: 1 }))}  >
 	              
 	                <IonIcon   icon={heart} />
-	        </IonButton>      
+	        </IonButton>:<IonButton  fill="clear" onClick={() => dispatch(deFavor({  id: infopoke.id, nombre: infopoke.name, color: color, img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${infopoke.id}.png`, cantidad: 1 }))}  >
+	             
+	              <IonIcon color="black"  icon={heartDislike} />
+	        </IonButton> }     
     	</IonButtons>
   
     </IonToolbar>
@@ -110,7 +139,7 @@ Infopoke();
              </div>
              
             </div>
-             <div className="mask" >
+             <div className="mask1" >
                                              <img  src={Car2} />
                               </div>
           </div>

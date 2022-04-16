@@ -31,7 +31,7 @@ import { SharedElement } from 'react-navigation-shared-element';
 import Car from '../assets/types/Electric.png';
 import Car1 from '../assets/images/001.png';
 import Car2 from '../assets/pokeball.png';
-import { addFavor, setUSerState } from '../redux/action';
+import { deFavor, setUSerState,listPokem } from '../redux/action';
 
 
 
@@ -82,6 +82,7 @@ const PopoverList: React.FC<{
 };
 const Tab2: React.FC = () => {
   const user:any = useSelector((state: any) => state.user);
+  const {pokemon,next}= useSelector((state:any)=>state)
   const dispatch = useDispatch()
   const [present, dismiss] = useIonPopover(PopoverList, { onHide: () => dismiss(), user });
 
@@ -96,23 +97,22 @@ const Tab2: React.FC = () => {
     router.push(`/subtab1/${id}`, "back", "push");
   }
 const Infopoke = async () => { 
-  const data:any = await getMovies();  
-    setCont(data[0]) 
-      setPokemon(data[1])
-       return pok 
+  const data:any = await getMovies(); 
+  if (pokemon.length===0) {
+   dispatch(listPokem({next:data[0],pokemon:[...data[1]]}))
+  }
+       return data 
      }
   useEffect(() => {
 Infopoke()
   }, [])
   async function searchNext($event: CustomEvent<void>) {
     try{
-        const data:any = await getMovies1(cont);  
-          if (cont != null) {
-            setDisableInfiniteScroll(data[1].length < 10);
-            setCont(data[0]);
-            setPokemon([...pok,...data[1]])
-
-             const dato = pok;
+        const data:any = await getMovies1(next);  
+          if (next != null) {
+            setDisableInfiniteScroll(pokemon.length < 10);
+            dispatch(listPokem({next:data[0],pokemon:[...data[1]]}))
+           
              } else {
             setDisableInfiniteScroll(false)
           }}catch(error){
@@ -139,8 +139,9 @@ Infopoke()
               event: e.nativeEvent,
             })
           }>
+          
             <IonButton className="io-padding-top">
-              <IonIcon className="bi bi-bag-dash-fill"> </IonIcon>
+              <IonIcon className="bi bi-bag-dash-fill"></IonIcon>
               
             </IonButton>
           </IonButtons>
@@ -153,10 +154,10 @@ Infopoke()
         />
       </IonHeader>
       <IonContent >
-        {pok.length > 2 ? <div><IonList>
+        {pokemon.length > 2 ? <div><IonList>
           {
 
-            pok.sort().filter(filterNames).map((value: any, idx: number, []) => (
+            pokemon.sort().filter(filterNames).map((value: any, idx: number, []) => (
              
             
                           <div key={idx} className=" no-padding-top" onClick={()=>goForward(value.id)}>
